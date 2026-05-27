@@ -1,0 +1,237 @@
+.waybillsPage {
+  .pageHeader {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+
+  .pageTitle {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--character-primary-88);
+  }
+
+  .pageSubtitle {
+    font-size: 12px;
+    color: var(--character-title-45);
+    margin-top: 3px;
+  }
+
+  // Status statistics bar
+  .statsBar {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .statCard {
+    flex: 1;
+    padding: 10px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 1px solid #e8e8e8;
+    background: #fafafa;
+    transition: all 0.15s;
+
+    &.active {
+      &.pendingPrice {
+        border-color: #ffe58f;
+        background: #fffbe6;
+
+        .statCount,
+        .statLabel {
+          color: #d48806;
+        }
+      }
+
+      &.billable {
+        border-color: #87e8a3;
+        background: #f0fcf4;
+
+        .statCount,
+        .statLabel {
+          color: #00b96b;
+        }
+      }
+
+      &.statementPending {
+        border-color: #e0e0e0;
+        background: #f5f5f5;
+
+        .statCount,
+        .statLabel {
+          color: #595959;
+        }
+      }
+
+      &.settled {
+        border-color: #91caff;
+        background: #e6f4ff;
+
+        .statCount,
+        .statLabel {
+          color: #0958d9;
+        }
+      }
+    }
+
+    &:not(.active) {
+      .statCount,
+      .statLabel {
+        color: #bbb;
+      }
+
+      .statHelp {
+        color: #ccc;
+      }
+    }
+  }
+
+  .statCount {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .statLabel {
+    font-size: 11px;
+    margin-top: 3px;
+    line-height: 1.3;
+  }
+
+  .statHelp {
+    font-size: 10px;
+    color: var(--character-title-45);
+    margin-top: 4px;
+    line-height: 1.35;
+  }
+
+  // Upload Own Data panel
+  .uploadPanel {
+    border: 1px solid #e8e8e8;
+    border-radius: 6px;
+    padding: 14px 20px;
+    margin-bottom: 20px;
+    background: #fafafa;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .uploadPanelContent {
+    flex: 1;
+  }
+
+  .uploadPanelTitle {
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--character-primary-88);
+    margin-bottom: 4px;
+  }
+
+  .uploadPanelDesc {
+    font-size: 12px;
+    color: var(--character-title-45);
+  }
+
+  .uploadPanelActions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  // Sync toast
+  .syncToast {
+    background: #f6ffed;
+    border: 1px solid #b7eb8f;
+    border-radius: 6px;
+    padding: 10px 16px;
+    margin-bottom: 16px;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .syncToastIcon {
+    color: #52c41a;
+    font-size: 16px;
+  }
+
+  // Prepaid info tip
+  .prepaidTip {
+    background: #e6f4ff;
+    border: 1px solid #91caff;
+    border-radius: 6px;
+    padding: 8px 14px;
+    margin-bottom: 16px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #0958d9;
+  }
+
+  // Status filter checkboxes
+  .statusFilterGroup {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .statusFilterLabel {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    color: var(--character-title-65);
+    white-space: nowrap;
+  }
+
+  // Editable amount input in table
+  .amountInput {
+    width: 96px;
+    padding: 2px 6px;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    font-size: 13px;
+    text-align: right;
+    outline: none;
+    transition: border-color 0.2s;
+
+    &:focus {
+      border-color: var(--primary-color);
+    }
+  }
+
+  // Amount placeholder
+  .amountPlaceholder {
+    color: #bbb;
+  }
+
+  // Prepaid amount highlight
+  .prepaidHighlight {
+    color: #0958d9;
+    font-weight: 600;
+  }
+
+  // Dimmed row (Settled / Statement Pending)
+  .dimmedRow {
+    opacity: 0.6;
+  }
+
+  // Waybill number link style
+  .waybillNo {
+    font-weight: 600;
+    color: #1677ff;
+  }
+
+  // Operation cell
+  .operationCell {
+    display: flex;
+    gap: 6px;
+  }
+}

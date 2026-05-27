@@ -12,6 +12,9 @@ const path = require('path');
 const filePath = path.join(__dirname, 'proxy.local.ts');
 
 const isExist = existsSync(filePath);
+const localProxy = isExist ? require('./proxy.local') : {};
+const localProxyConfig = localProxy.default || localProxy;
+
 if (isExist) {
   console.log('🚀🚀🚀 [proxy.local.ts] File exists.');
 } else {
@@ -44,5 +47,5 @@ export default {
       // pathRewrite: { '^/api': '' },
     },
   },
-  ...(isExist ? require('./proxy.local') : {}),
+  ...localProxyConfig,
 };

@@ -85,6 +85,68 @@ export default [
     hideInMenu: true,
   },
   {
+    path: '/claim-tickets',
+    name: 'Claim Tickets',
+    component: './claim-tickets/List',
+    meta: {
+      icon: 'claim',
+    },
+  },
+  {
+    path: '/claim-tickets/detail/:id',
+    name: 'Claim Ticket Detail',
+    component: './claim-tickets/Detail',
+    hideInMenu: true,
+  },
+  {
+    path: '/billing-waybills',
+    name: 'Billing Waybills',
+    component: './billing-waybills/List',
+    meta: {
+      icon: 'waybills',
+    },
+  },
+  {
+    path: '/advance-payment',
+    name: 'Advance Payment',
+    component: './advance-payment/List',
+    meta: {
+      icon: 'payment',
+    },
+  },
+  {
+    path: '/advance-payment/create',
+    name: 'Create Advance Payment',
+    component: './advance-payment/Create',
+    hideInMenu: true,
+  },
+  {
+    path: '/advance-payment/detail/:id',
+    name: 'Advance Payment Detail',
+    component: './advance-payment/Detail',
+    hideInMenu: true,
+  },
+  {
+    path: '/statements',
+    name: 'My Statements',
+    component: './statements/List',
+    meta: {
+      icon: 'billing',
+    },
+  },
+  {
+    path: '/statements/create',
+    name: 'Create Statement',
+    component: './statements/Create',
+    hideInMenu: true,
+  },
+  {
+    path: '/statements/detail/:id',
+    name: 'Statement Detail',
+    component: './statements/Detail',
+    hideInMenu: true,
+  },
+  {
     path: '/403',
     layout: false,
     component: './403',

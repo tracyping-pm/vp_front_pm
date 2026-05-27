@@ -85,6 +85,7 @@ export const LIMIT_SIZE = 1024 * 1024 * 50;
 export const TOTAL_LIMIT_SIZE = LIMIT_SIZE * 2;
 
 export const LAYOUT_HEDAER_HEIGHT = 50;
+export const LAYOUT_HEADER_HEIGHT = LAYOUT_HEDAER_HEIGHT;
 
 export const initialImageState: IImageState = {
   pending: false,

@@ -1,0 +1,189 @@
+.claimTicketsPage {
+  .kpiRow {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+
+    .kpiCard {
+      flex: 1;
+      background: #fff;
+      border-radius: 8px;
+      padding: 16px 20px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+
+      .kpiLabel {
+        font-size: 13px;
+        color: var(--character-title-45);
+        margin-bottom: 4px;
+      }
+
+      .kpiValue {
+        font-size: 24px;
+        font-weight: 600;
+        color: var(--character-title-85);
+
+        &.orange {
+          color: var(--warning-color);
+        }
+
+        &.red {
+          color: var(--danger-color);
+        }
+
+        &.blue {
+          color: var(--primary-color);
+        }
+      }
+    }
+  }
+
+  .statusFilterRow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+    align-items: center;
+
+    .statusLabel {
+      font-size: 12px;
+      color: var(--character-title-45);
+      margin-right: 4px;
+    }
+
+    .statusBtn {
+      cursor: pointer;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      padding: 2px 8px;
+      font-size: 12px;
+      background: #fafafa;
+      color: var(--character-title-65);
+      transition: all 0.2s;
+
+      &:hover {
+        border-color: var(--primary-color);
+      }
+
+      &.active {
+        border-color: var(--character-title-85);
+      }
+    }
+  }
+
+  .statusHelpRow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 12px;
+    font-size: 11px;
+    color: var(--character-title-45);
+  }
+
+  .claimTypeCell {
+    .l1 {
+      font-size: 13px;
+      color: var(--character-title-85);
+    }
+
+    .l2 {
+      font-size: 12px;
+      color: var(--character-title-45);
+    }
+  }
+}
+
+.claimDetailPage {
+  .headerCard {
+    margin-bottom: 16px;
+
+    .headerTop {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .ticketTitle {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--character-title-85);
+    }
+
+    .ticketMeta {
+      font-size: 12px;
+      color: var(--character-title-45);
+      margin-top: 4px;
+    }
+  }
+
+  .sectionCard {
+    margin-bottom: 16px;
+  }
+
+  .claimDetailsContent {
+    font-size: 13px;
+    line-height: 1.7;
+    white-space: pre-line;
+    color: var(--character-title-85);
+  }
+
+  .attachmentTag {
+    background: #f0f5ff;
+    border: 1px solid #adc6ff;
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-size: 12px;
+    display: inline-block;
+  }
+
+  .disputeProofTag {
+    background: #f6ffed;
+    border: 1px solid #b7eb8f;
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-size: 12px;
+    display: inline-block;
+  }
+
+  .actionBar {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+}
+
+.disputeModal {
+  .warningAlert {
+    margin-bottom: 16px;
+  }
+
+  .charCount {
+    font-size: 11px;
+    color: var(--character-title-45);
+    text-align: right;
+    margin-top: 4px;
+  }
+
+  .fileList {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+
+  .fileTag {
+    background: #f6ffed;
+    border: 1px solid #b7eb8f;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .supportText {
+    font-size: 11px;
+    color: var(--character-title-45);
+    margin-top: 6px;
+  }
+}

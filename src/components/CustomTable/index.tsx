@@ -8,6 +8,7 @@ import styles from './index.less';
 
 export interface ICustomTable extends ProTableProps<any, any> {
   noStyle?: boolean;
+  filterSticky?: any;
 }
 
 const CustomTable: FC<ICustomTable> = ({

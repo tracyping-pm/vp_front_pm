@@ -81,10 +81,7 @@ const LocatorModal = ({
         {
           location: latLngLiteral,
         },
-        (
-          results: google.maps.GeocoderResult[] | null,
-          status: google.maps.GeocoderStatus,
-        ) => {
+        (results, status) => {
           setLoading(false);
           if (status === 'OK') {
             const frist = results?.[0];

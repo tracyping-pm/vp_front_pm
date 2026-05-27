@@ -3,7 +3,7 @@ import { IWaybillTrendStatistics } from '@/api/types/home';
 import { ProFormDatePicker } from '@ant-design/pro-components';
 import { useSize } from 'ahooks';
 import { App, Button, Skeleton } from 'antd';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import * as echarts from 'echarts';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import styles from './styles.less';
@@ -206,10 +206,10 @@ const WaybillTrendStatistics = () => {
             <ProFormDatePicker
               fieldProps={{
                 value: startTime,
-                onChange: (val) => {
+                onChange: (val: Dayjs | null) => {
                   timeChange(val, 'start');
                 },
-                disabledDate: (current) => {
+                disabledDate: (current: Dayjs) => {
                   return current > dayjs(endTime).startOf('day');
                 },
               }}
@@ -219,10 +219,10 @@ const WaybillTrendStatistics = () => {
             <ProFormDatePicker
               fieldProps={{
                 value: endTime,
-                onChange: (val) => {
+                onChange: (val: Dayjs | null) => {
                   timeChange(val, 'end');
                 },
-                disabledDate: (current) => {
+                disabledDate: (current: Dayjs) => {
                   return (
                     current > dayjs().endOf('day') ||
                     current < dayjs(startTime).startOf('day')

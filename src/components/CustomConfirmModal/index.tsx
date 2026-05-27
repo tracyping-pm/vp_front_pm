@@ -1,13 +1,14 @@
 import { ExclamationCircleFilled } from '@ant-design/icons';
-import { App, ModalProps } from 'antd';
+import { App, ModalFuncProps } from 'antd';
 
 import React, { FC } from 'react';
 
-export interface ICustomConfirmModal extends ModalProps {
+export interface ICustomConfirmModal extends Omit<ModalFuncProps, 'content'> {
   title?: React.ReactNode;
   content?: React.ReactNode;
   disabled?: boolean;
   style?: React.CSSProperties;
+  children?: React.ReactNode;
 }
 
 const CustomConfirmModal: FC<ICustomConfirmModal> = ({

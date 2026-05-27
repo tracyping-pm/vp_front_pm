@@ -25,10 +25,10 @@
     "preview": "max preview",
     "setup": "max setup",
     "start": "cross-env UMI_ENV=dev max dev",
-    "start:dev": "cross-env PORT=7000 REACT_APP_ENV=dev MOCK=none UMI_ENV=dev max dev",
-    "start:prod": "cross-env PORT=7000 REACT_APP_ENV=prod MOCK=none UMI_ENV=dev max dev",
-    "start:test": "cross-env PORT=7000 REACT_APP_ENV=test MOCK=none UMI_ENV=dev max dev",
-    "start:uat": "cross-env PORT=7000 REACT_APP_ENV=uat MOCK=none UMI_ENV=dev max dev",
+    "start:dev": "cross-env PORT=7000 REACT_APP_ENV=dev MOCK=dev UMI_ENV=dev max dev",
+    "start:prod": "cross-env PORT=7000 REACT_APP_ENV=prod MOCK=dev UMI_ENV=dev max dev",
+    "start:test": "cross-env PORT=7000 REACT_APP_ENV=test MOCK=dev UMI_ENV=dev max dev",
+    "start:uat": "cross-env PORT=7000 REACT_APP_ENV=uat MOCK=dev UMI_ENV=dev max dev",
     "tsc": "tsc --noEmit"
   },
   "lint-staged": {

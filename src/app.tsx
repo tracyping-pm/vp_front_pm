@@ -1,6 +1,12 @@
 // 运行时配置
 
-import { ExclamationCircleFilled, HomeOutlined } from '@ant-design/icons';
+import {
+  ExclamationCircleFilled,
+  FileTextOutlined,
+  HomeOutlined,
+  MoneyCollectOutlined,
+  SnippetsOutlined,
+} from '@ant-design/icons';
 import { MenuDataItem } from '@ant-design/pro-components';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { Link, RequestConfig, RunTimeLayoutConfig, history } from '@umijs/max';
@@ -39,10 +45,12 @@ import {
   tableStyleConfig,
   themeConfig,
 } from './theme/themeConfig';
+import { ensureLocalDevCookie, isLocalDevHost } from './utils/localDev';
 import './theme/variables.less';
 
 dayjs.extend(weekday);
 dayjs.extend(localeData);
+ensureLocalDevCookie();
 
 const menuIconList = [
   {
@@ -68,6 +76,18 @@ const menuIconList = [
   {
     icon: <IconAccred />,
     key: 'accred',
+  },
+  {
+    icon: <SnippetsOutlined style={{ fontSize: 16, padding: '2px' }} />,
+    key: 'claim',
+  },
+  {
+    icon: <MoneyCollectOutlined style={{ fontSize: 16, padding: '2px' }} />,
+    key: 'payment',
+  },
+  {
+    icon: <FileTextOutlined style={{ fontSize: 16, padding: '2px' }} />,
+    key: 'billing',
   },
 ];
 
@@ -112,6 +132,10 @@ export async function getInitialState(): Promise<{
 // @ts-ignore
 export const layout: RunTimeLayoutConfig = ({ initialState }) => {
   const onPageChange = () => {
+    if (isLocalDevHost()) {
+      return;
+    }
+
     // 如果没有登录，重定向到 login
     if (!Cookie.get(TOKEN_KEY) && !initialState?.currentUser) {
       return history.push(PATHS.LOGIN);
@@ -259,7 +283,7 @@ export const request: RequestConfig = {
       if (+code === 401) {
         Cookie.remove(TOKEN_KEY);
 
-        if (location.pathname !== PATHS.LOGIN) {
+        if (!isLocalDevHost() && location.pathname !== PATHS.LOGIN) {
           history.push({
             pathname: PATHS.LOGIN,
             search: queryString.stringify({
@@ -290,6 +314,13 @@ export const request: RequestConfig = {
 };
 
 export const onRouteChange = ({ location }: { location: Location }) => {
+  ensureLocalDevCookie();
+
+  if (isLocalDevHost()) {
+    window?.scrollTo?.(0, 0);
+    return;
+  }
+
   if (location?.pathname === PATHS.LOGIN && Cookie.get(TOKEN_KEY)) {
     history.push(PATHS.HOME);
   }

@@ -82,11 +82,8 @@ const AutoCompleteSelect: FC<IAutoCompleteSelect> = ({
         placeId: option?.place_id,
         // fields: ['geometry', 'formatted_address'],
       },
-      (
-        res: google.maps.places.PlaceResult | null,
-        status: google.maps.places.PlacesServiceStatus,
-      ) => {
-        if (status === google.maps.places.PlacesServiceStatus.OK && res) {
+      (res, status) => {
+        if (status === 'OK' && res) {
           const { address_components, formatted_address, geometry } = res ?? {};
           const { location } = geometry ?? {};
           let level = 0;
