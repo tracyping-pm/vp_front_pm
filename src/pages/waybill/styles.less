@@ -1,0 +1,55 @@
+.proTableDot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  margin-bottom: 2px;
+  margin-right: 8px;
+}
+
+.waybillListPage {
+  :global {
+    .summary {
+      padding: 12px;
+      padding-bottom: 0;
+      background-color: #fff;
+
+      .summary-title {
+        margin-bottom: 12px;
+        color: rgba(0, 0, 0, 85%);
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 24px;
+      }
+    }
+
+    .operateCell {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .ant-btn {
+        padding: 0;
+      }
+    }
+  }
+}
+
+.customTableAlert {
+  color: rgba(0, 0, 0, 45%);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px;
+
+  :global {
+    .len {
+      color: rgba(0, 0, 0, 85%);
+    }
+  }
+}
+
+.customerCodePopover {
+  max-width: 240px;
+}

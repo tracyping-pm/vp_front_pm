@@ -1,0 +1,3 @@
+export const EVENTS = {
+  MODULE_POD_RELOAD: 'MODULE_POD_RELOAD',
+};

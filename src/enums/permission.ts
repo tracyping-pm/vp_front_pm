@@ -1,0 +1,73 @@
+export enum PermissionEnum {
+  // waybill 🚀🚀🚀 --start-- 🚀🚀🚀
+  WAYBILL = 'waybill',
+  CREATE_WAYBILL = 'createWaybill',
+  COPY_WAYBILL = 'copyWaybill',
+  WAYBILL_DETAIL = 'waybillDetail',
+  STANDARD_WAYBILL_DETAIL = 'standardWaybillDetail',
+  TEMPORARY_WAYBILL_DETAIL = 'temporaryWaybillDetail',
+
+  // standardWaybill
+  STANDARD_WAYBILL_OPERATE = 'standardWaybillOperationLog',
+  STANDARD_WAYBILL_ABNORMAL = 'standardWaybillAbnormal',
+  STANDARD_WAYBILL_CANCEL = 'standardWaybillCancel',
+  STANDARD_WAYBILL_DELETE = 'standardWaybillDelete',
+  STANDARD_WAYBILL_PARTIAL_PAYMENT = 'standardWaybillPartialPayment',
+  STANDARD_WAYBILL_PARTIAL_PAYMENT_EDIT = 'standardWaybillPartialPaymentEdit',
+  STANDARD_WAYBILL_ADD_RECORD = 'standardWaybillAddRecord',
+  STANDARD_WAYBILL_ADDITIONAL = 'standardWaybillAdditionalCharge',
+  STANDARD_WAYBILL_ADDITIONAL_EDIT = 'standardWaybillAdditionalChargeEdit',
+  STANDARD_WAYBILL_CONFIRM_ROUTE = 'standardWaybillConfirmRoute',
+  STANDARD_WAYBILL_MANAGE_POD = 'standardWaybillManagePOD',
+  STANDARD_WAYBILL_SUBMIT = 'standardWaybillSubmit',
+  STANDARD_WAYBILL_START = 'standardWaybillStart',
+  STANDARD_WAYBILL_CONFIRM_WAYBILL = 'standardWaybillConfirmWaybill',
+  STANDARD_WAYBILL_SHIPPING_RECORD = 'standardWaybillShippingRecords',
+  STANDARD_WAYBILL_ROUTE = 'standardWaybillRoute',
+  STANDARD_WAYBILL_ROUTE_PLANNING = 'standardWaybillRoutePlanning',
+  STANDARD_WAYBILL_CARRIER = 'standardWaybillCarrier',
+  STANDARD_WAYBILL_CARRIER_ASSIGN = 'standardWaybillCarrierAssign',
+  STANDARD_WAYBILL_BILLING = 'standardWaybillBilling',
+  STANDARD_WAYBILL_POD = 'standardWaybillPOD',
+  STANDARD_WAYBILL_BASIC_INFO = 'standardWaybillBasicInformation',
+  STANDARD_WAYBILL_BASIC_INFO_EDIT = 'standardWaybillBasicInformationEdit',
+  STANDARD_WAYBILL_REMARK = 'standardWaybillRemark',
+  STANDARD_WAYBILL_REMARK_EDIT = 'standardWaybillRemarkEdit',
+
+  // temporaryWaybill
+  TEMPORARY_WAYBILL_OPERATE = 'temporaryWaybillOperationLog',
+  TEMPORARY_WAYBILL_ABNORMAL = 'temporaryWaybillAbnormal',
+  TEMPORARY_WAYBILL_CANCEL = 'temporaryWaybillCancel',
+  TEMPORARY_WAYBILL_DELETE = 'temporaryWaybillDelete',
+  TEMPORARY_WAYBILL_PARTIAL_PAYMENT = 'temporaryWaybillPartialPayment',
+  TEMPORARY_WAYBILL_PARTIAL_PAYMENT_EDIT = 'temporaryWaybillPartialPaymentEdit',
+  TEMPORARY_WAYBILL_ADD_RECORD = 'temporaryWaybillAddRecord',
+  TEMPORARY_WAYBILL_ADDITIONAL = 'temporaryWaybillAdditionalCharge',
+  TEMPORARY_WAYBILL_ADDITIONAL_EDIT = 'temporaryWaybillAdditionalChargeEdit',
+  TEMPORARY_WAYBILL_CONFIRM_ROUTE = 'temporaryWaybillConfirmRoute',
+  TEMPORARY_WAYBILL_MANAGE_POD = 'temporaryWaybillManagePOD',
+  TEMPORARY_WAYBILL_SUBMIT = 'temporaryWaybillSubmit',
+  TEMPORARY_WAYBILL_START = 'temporaryWaybillStart',
+  TEMPORARY_WAYBILL_CONFIRM_WAYBILL = 'temporaryWaybillConfirmWaybill',
+  TEMPORARY_WAYBILL_SHIPPING_RECORD = 'temporaryWaybillShippingRecords',
+  TEMPORARY_WAYBILL_ROUTE = 'temporaryWaybillRoute',
+  TEMPORARY_WAYBILL_ROUTE_PLANNING = 'temporaryWaybillRoutePlanning',
+  TEMPORARY_WAYBILL_CARRIER = 'temporaryWaybillCarrier',
+  TEMPORARY_WAYBILL_CARRIER_ASSIGN = 'temporaryWaybillCarrierAssign',
+  TEMPORARY_WAYBILL_BILLING = 'temporaryWaybillBilling',
+  TEMPORARY_WAYBILL_BILLING_EDIT = 'temporaryWaybillBillingEdit',
+  TEMPORARY_WAYBILL_POD = 'temporaryWaybillPOD',
+  TEMPORARY_WAYBILL_BASIC_INFO = 'temporaryWaybillBasicInformation',
+  TEMPORARY_WAYBILL_BASIC_INFO_EDIT = 'temporaryWaybillBasicInformationEdit',
+  TEMPORARY_WAYBILL_REMARK = 'temporaryWaybillRemark',
+  TEMPORARY_WAYBILL_REMARK_EDIT = 'temporaryWaybillRemarkEdit',
+  // waybill 🚀🚀🚀 --end-- 🚀🚀🚀
+
+  // Project Management 🚀🚀🚀 --end-- 🚀🚀🚀
+
+  // Permission Management 🚀🚀🚀 --start-- 🚀🚀🚀
+  PERMISSION_MANAGEMENT = 'permissionManagement',
+  ACCOUNT_MANAGEMENT = 'accountManagement',
+  ORGANIZATION_MANAGEMENT = 'organizationManagement',
+  // TODO add more
+}

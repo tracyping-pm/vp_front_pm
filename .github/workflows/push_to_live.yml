@@ -1,0 +1,36 @@
+name: Push Docker Image to Live
+
+on:
+  workflow_dispatch:
+    inputs:
+      tagId:
+        description: 'Tag ID'
+        required: true
+
+jobs:
+  repush:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate Tag ID
+        run: |
+          VALID_TAG=$(curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -s "https://api.github.com/repos/${{ github.repository }}/git/refs/tags/${{ github.event.inputs.tagId }}" | jq '.ref')
+          if [ "$VALID_TAG" == "null" ]; then
+            echo "Invalid tagId provided!"
+            exit 1
+          fi
+
+      - name: Login to Alibaba Cloud Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ secrets.ALIBABA_REGISTRY }}
+          username: ${{ secrets.ALIBABA_USERNAME }}
+          password: ${{ secrets.ALIBABA_PASSWORD }}
+
+      - name: Pull Image from Dev
+        run: docker pull ${{ secrets.ALIBABA_REGISTRY }}/dev/vp_front:${{ github.event.inputs.tagId }}-prod
+
+      - name: Retag Image for Live
+        run: docker tag ${{ secrets.ALIBABA_REGISTRY }}/dev/vp_front:${{ github.event.inputs.tagId }}-prod ${{ secrets.ALIBABA_REGISTRY }}/live/vp_front:${{ github.event.inputs.tagId }}-prod
+
+      - name: Push Image to Live
+        run: docker push ${{ secrets.ALIBABA_REGISTRY }}/live/vp_front:${{ github.event.inputs.tagId }}-prod

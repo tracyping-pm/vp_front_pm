@@ -1,0 +1,177 @@
+.waybillShippingRecord {
+  padding: 12px;
+  background-color: #fff;
+  border-radius: 2px;
+
+  :global {
+    .moduleTitle {
+      margin-bottom: 12px;
+      color: rgba(0, 0, 0, 85%);
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 24px;
+    }
+
+    .timeLineItem {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+
+      .time {
+        color: rgba(0, 0, 0, 85%);
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 24px;
+      }
+
+      .normalItem {
+        display: flex;
+        gap: 28px;
+
+        .label {
+          flex: 0 0 150px;
+          color: rgba(0, 0, 0, 45%);
+          font-size: 16px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 24px;
+        }
+
+        .value {
+          color: rgba(0, 0, 0, 85%);
+          font-size: 16px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 24px;
+
+          .from {
+            display: inline-block;
+            margin-right: 4px;
+            color: rgba(0, 0, 0, 45%);
+          }
+
+          .to {
+            display: inline-block;
+            margin-left: 4px;
+            margin-right: 4px;
+            color: rgba(0, 0, 0, 45%);
+          }
+        }
+
+        .value.link {
+          color: #009688;
+          font-size: 16px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 24px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+
+.formatter {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  &_title {
+    display: flex;
+    align-items: center;
+    height: 22px;
+    font-size: 14px;
+    color: rgba(0, 0, 0, 45%);
+  }
+
+  &_line {
+    display: flex;
+    align-items: center;
+  }
+
+  &_label {
+    display: flex;
+    align-items: center;
+    width: 260px;
+    height: 22px;
+    font-size: 14px;
+    color: rgba(0, 0, 0, 45%);
+  }
+
+  &_value {
+    display: flex;
+    align-items: center;
+    height: 22px;
+    font-size: 14px;
+    line-height: 22px;
+    color: rgba(0, 0, 0, 85%);
+  }
+}
+
+.markerDetail {
+  width: 276px;
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background-color: #fff;
+
+  :global {
+    .normalItem {
+      display: flex;
+      gap: 28px;
+
+      .label {
+        flex: 0 0 66px;
+        color: rgba(0, 0, 0, 45%);
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 20px;
+      }
+
+      .value {
+        color: rgba(0, 0, 0, 85%);
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 20px;
+        word-break: break-all;
+      }
+    }
+  }
+}
+
+.waybill {
+  background-color: #fff;
+
+  &_header {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 24px;
+    border-bottom: 1px solid #eff1f3;
+  }
+
+  &_title {
+    margin-top: 24px;
+    color: #262626;
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  &_tool {
+    margin-top: 30px;
+    display: flex;
+    gap: 16px;
+
+    &_line {
+      width: 1px;
+      height: 32px;
+      background-color: #dfdfdf;
+    }
+
+    &_time {
+      display: flex;
+      gap: 6px;
+    }
+  }
+}

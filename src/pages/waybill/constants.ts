@@ -1,0 +1,3 @@
+export const EVENT_MAP = {
+  EXPORT_WAYBILL: 'EXPORT_WAYBILL',
+};
