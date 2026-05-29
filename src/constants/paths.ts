@@ -12,32 +12,32 @@ const PATHS = {
   TRUCK_DETAIL: '/trucks/detail',
   CREW_LIST: '/crew',
   CREW_DETAIL: '/crew/detail',
-  // Claim Tickets
-  CLAIM_TICKETS: '/claim-tickets',
-  CLAIM_TICKETS_DETAIL: '/claim-tickets/detail',
-  VP_CLAIM_TICKETS: '/claim-tickets',
-  VP_CLAIM_TICKETS_DETAIL: '/claim-tickets/detail',
+  // Finance — Claim Tickets
+  CLAIM_TICKETS: '/finance/claim-tickets',
+  CLAIM_TICKETS_DETAIL: '/finance/claim-tickets/detail',
+  VP_CLAIM_TICKETS: '/finance/claim-tickets',
+  VP_CLAIM_TICKETS_DETAIL: '/finance/claim-tickets/detail',
 
-  // Billing Waybills (unbilled / billable waybills for statement creation)
-  BILLING_WAYBILLS: '/billing-waybills',
-  BILLING_WAYBILL_BILLING: '/billing-waybills',
-  BILLING_WAYBILL_BILLING_DETAIL: '/billing-waybills/detail',
+  // Finance — Billing Waybills (unbilled / billable waybills for statement creation)
+  BILLING_WAYBILLS: '/finance/billing-waybills',
+  BILLING_WAYBILL_BILLING: '/finance/billing-waybills',
+  BILLING_WAYBILL_BILLING_DETAIL: '/finance/billing-waybills/detail',
 
-  // Advance Payment Request
-  ADVANCE_PAYMENT: '/advance-payment',
-  ADVANCE_PAYMENT_CREATE: '/advance-payment/create',
-  ADVANCE_PAYMENT_DETAIL: '/advance-payment/detail',
-  VP_ADVANCE_PAYMENT: '/advance-payment',
-  VP_ADVANCE_PAYMENT_CREATE: '/advance-payment/create',
-  VP_ADVANCE_PAYMENT_DETAIL: '/advance-payment/detail',
+  // Finance — Advance Payment Request
+  ADVANCE_PAYMENT: '/finance/advance-payment',
+  ADVANCE_PAYMENT_CREATE: '/finance/advance-payment/create',
+  ADVANCE_PAYMENT_DETAIL: '/finance/advance-payment/detail',
+  VP_ADVANCE_PAYMENT: '/finance/advance-payment',
+  VP_ADVANCE_PAYMENT_CREATE: '/finance/advance-payment/create',
+  VP_ADVANCE_PAYMENT_DETAIL: '/finance/advance-payment/detail',
 
-  // My Statements
-  STATEMENTS: '/statements',
-  STATEMENTS_CREATE: '/statements/create',
-  STATEMENTS_DETAIL: '/statements/detail',
-  VP_STATEMENTS: '/statements',
-  VP_STATEMENTS_CREATE: '/statements/create',
-  VP_STATEMENTS_DETAIL: '/statements/detail',
+  // Finance — My Statements
+  STATEMENTS: '/finance/statements',
+  STATEMENTS_CREATE: '/finance/statements/create',
+  STATEMENTS_DETAIL: '/finance/statements/detail',
+  VP_STATEMENTS: '/finance/statements',
+  VP_STATEMENTS_CREATE: '/finance/statements/create',
+  VP_STATEMENTS_DETAIL: '/finance/statements/detail',
 
   NO_AUTH: '/403',
 };

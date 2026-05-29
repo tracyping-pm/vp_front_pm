@@ -84,11 +84,67 @@ const StatementDetail: React.FC = () => {
   // Resolve data
   const staticData: StatementDetailData | undefined = STATEMENT_DETAIL_MAP[stmtNo];
 
-  // Build effective data: merge sync entry on top of mock
+  // Build effective data: prefer mock (for existing statements), fall back to
+  // reconstructing from the localStorage sync entry (for newly created statements).
   const data: StatementDetailData | undefined = staticData
     ? {
         ...staticData,
         rejectReason: syncEntry?.rejectReason ?? staticData.rejectReason,
+        operationLog: syncEntry?.operationLogs
+          ? syncEntry.operationLogs.map((l) => ({
+              timestamp: l.time,
+              action: l.action,
+              operator: l.actor,
+              subLine: l.note,
+            }))
+          : staticData.operationLog,
+      }
+    : syncEntry
+    ? {
+        source: syncEntry.source === 'Vendor Portal' ? 'Self-Created' : 'Inteluck',
+        statementType: syncEntry.statementType,
+        reconciliationPeriod: syncEntry.reconciliationPeriod,
+        taxMark: syncEntry.taxMark,
+        totalAmountPayable: syncEntry.totalVpAmount,
+        createDate: syncEntry.createdAt,
+        waybills: syncEntry.waybills.map((w) => ({
+          no: w.no,
+          waybillAmount: w.basicAmount + w.additionalCharge + w.exceptionFee,
+          basicAmount: w.basicAmount,
+          prepaidAmount: 0,
+          additionalCharge: w.additionalCharge,
+          exceptionFee: w.exceptionFee,
+          reimbursement: w.reimbursement,
+          positionTime: w.positionTime,
+          unloadingTime: w.unloadingTime,
+          truckType: w.truckType,
+          origin: w.origin,
+          destination: w.destination,
+        })),
+        claimTickets: syncEntry.claims.map((c) => ({
+          ticketNo: c.no,
+          claimType: c.type,
+          relatedWaybill: c.waybillNo,
+          claimAmount: c.amount,
+        })),
+        waybillContractCost: syncEntry.totalVpAmount,
+        vendorBasicAmount: syncEntry.waybills.reduce((s, w) => s + w.basicAmount, 0),
+        prepaidAmount: 0,
+        vendorExceptionFee: syncEntry.waybills.reduce((s, w) => s + w.exceptionFee, 0),
+        vendorAdditionalCharge: syncEntry.waybills.reduce((s, w) => s + w.additionalCharge, 0),
+        kpiClaim: syncEntry.claims.reduce((s, c) => s + c.amount, 0),
+        vat: syncEntry.vatAmount,
+        wht: syncEntry.whtAmount,
+        miscCharges: syncEntry.miscCharges,
+        standaloneInvoices: syncEntry.standaloneInvoices,
+        standaloneProofs: syncEntry.standaloneProofs,
+        operationLog: syncEntry.operationLogs?.map((l) => ({
+          timestamp: l.time,
+          action: l.action,
+          operator: l.actor,
+          subLine: l.note,
+        })),
+        rejectReason: syncEntry.rejectReason,
       }
     : undefined;
 
@@ -167,11 +223,62 @@ const StatementDetail: React.FC = () => {
     );
   }
 
+  const isStandalone = data.statementType === 'Standalone';
+
+  // ── Helper: build full SyncedApStatement from current local state ─────────
+
+  const buildSyncPayload = (newStatus: import('@/pages/common/apStatementSync').SyncedApStmtStatus, now: string, extraLog?: { time: string; actor: string; action: string; note?: string }): import('@/pages/common/apStatementSync').SyncedApStatement => {
+    const prevLogs = syncEntry?.operationLogs ?? [];
+    const logs = extraLog ? [...prevLogs, extraLog] : prevLogs;
+    return {
+      no: stmtNo,
+      vendorName: syncEntry?.vendorName ?? 'ACAA Trucking Services',
+      source: source === 'Self-Created' ? 'Vendor Portal' : 'Internal',
+      status: newStatus,
+      statementType: data.statementType ?? 'Standard',
+      reconciliationPeriod: data.reconciliationPeriod,
+      taxMark: data.taxMark as any,
+      vatRate: Number(vatRate),
+      whtRate: Number(whtRate),
+      vatAmount,
+      whtAmount,
+      settlementItems: Object.entries(checkedItems).filter(([, v]) => v).map(([k]) => k),
+      totalVpAmount: data.totalAmountPayable,
+      waybillCount: localWaybills.length,
+      waybills: localWaybills.map((w) => ({
+        no: w.no,
+        positionTime: w.positionTime,
+        unloadingTime: w.unloadingTime,
+        truckType: w.truckType,
+        origin: w.origin,
+        destination: w.destination,
+        basicAmount: w.basicAmount,
+        additionalCharge: w.additionalCharge,
+        exceptionFee: w.exceptionFee,
+        reimbursement: w.reimbursement,
+      })),
+      claims: localClaims.map((c) => ({
+        no: c.ticketNo,
+        type: c.claimType,
+        amount: c.claimAmount,
+        waybillNo: c.relatedWaybill || '',
+      })),
+      createdAt: syncEntry?.createdAt ?? data.createDate,
+      submittedAt: newStatus === 'Awaiting Comparison' ? now : syncEntry?.submittedAt,
+      rejectReason: syncEntry?.rejectReason,
+      itemChecks: syncEntry?.itemChecks,
+      returnedItems: syncEntry?.returnedItems,
+      operationLogs: logs,
+      miscCharges: isStandalone && localMiscCharges.length > 0 ? localMiscCharges : undefined,
+      standaloneInvoices: isStandalone && localStandaloneInvoices.length > 0 ? localStandaloneInvoices : undefined,
+      standaloneProofs: isStandalone && localStandaloneProofs.length > 0 ? localStandaloneProofs : undefined,
+    };
+  };
+
   // ── Derived flags ──────────────────────────────────────────────────────────
 
   const isEditable = status === 'Draft' || status === 'Awaiting Re-bill';
   const hasRemove = status === 'Draft' || status === 'Awaiting Re-bill';
-  const isStandalone = data.statementType === 'Standalone';
   const invoiceReadonly = ['Pending Payment', 'Collected'].includes(status);
   const showPayment = ['Pending Payment', 'Collected'].includes(status);
   const { source, reconciliationPeriod, taxMark, totalAmountPayable, createDate, payments, operationLog, rejectReason } = data;
@@ -300,17 +407,16 @@ const StatementDetail: React.FC = () => {
         <div style={{ flex: 1 }} />
         {isEditable && (
           <div style={{ display: 'flex', gap: 8 }}>
-            <Button onClick={() => showToast('Draft saved successfully.')}>Save as Draft</Button>
+            <Button onClick={() => {
+              const now = new Date().toISOString();
+              upsertApStatement(buildSyncPayload('Draft', now, { time: now, actor: 'Vendor', action: 'Saved as Draft' }));
+              showToast('Draft saved successfully.');
+            }}>Save as Draft</Button>
             <Button
               type="primary"
               onClick={() => {
-                if (syncEntry) {
-                  appendApStmtLog(stmtNo, {
-                    time: new Date().toISOString(),
-                    actor: 'Vendor',
-                    action: 'Submitted',
-                  });
-                }
+                const now = new Date().toISOString();
+                upsertApStatement(buildSyncPayload('Awaiting Comparison', now, { time: now, actor: 'Vendor', action: 'Submitted' }));
                 showToast('Statement submitted to TMS.');
               }}
             >

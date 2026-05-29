@@ -408,7 +408,7 @@ const CreateStatement: React.FC = () => {
       no: stmtNo,
       vendorName: 'ACAA Trucking Services',
       source: 'Vendor Portal',
-      status: isDraft ? 'Awaiting Comparison' : 'Awaiting Comparison',
+      status: isDraft ? 'Draft' : 'Awaiting Comparison',
       statementType: statementType,
       reconciliationPeriod,
       taxMark: taxMark,

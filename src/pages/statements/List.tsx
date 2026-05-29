@@ -60,14 +60,19 @@ const BASE_BADGE: React.CSSProperties = {
 // ── Component ─────────────────────────────────────────────────────────────────────
 
 const StatementList: React.FC = () => {
-  // Re-sync when localStorage changes from TMS side
+  // Re-sync when localStorage changes from TMS side, and on window focus
   const [storageVer, setStorageVer] = useState(0);
   useEffect(() => {
-    const handler = (e: StorageEvent) => {
+    const onStorage = (e: StorageEvent) => {
       if (e.key === 'ap-statements-sync') setStorageVer((v) => v + 1);
     };
-    window.addEventListener('storage', handler);
-    return () => window.removeEventListener('storage', handler);
+    const onFocus = () => setStorageVer((v) => v + 1);
+    window.addEventListener('storage', onStorage);
+    window.addEventListener('focus', onFocus);
+    return () => {
+      window.removeEventListener('storage', onStorage);
+      window.removeEventListener('focus', onFocus);
+    };
   }, []);
 
   const sampleNos = useMemo(() => new Set(SAMPLE_STATEMENTS.map((r) => r.no)), []);

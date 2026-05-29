@@ -11,6 +11,19 @@ import {
   type DeductionState,
 } from './mock/claimTickets';
 
+// ── Claim override persistence (shared with Detail page) ──────────────────────
+
+const CLAIM_OVERRIDE_KEY = 'vp-claim-ticket-overrides';
+
+function loadClaimOverrides(): Record<string, { status: ClaimStatus }> {
+  try {
+    const raw = localStorage.getItem(CLAIM_OVERRIDE_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch {
+    return {};
+  }
+}
+
 const VP_STATUSES: ClaimStatus[] = [
   'Pending Confirm',
   'Disputed',
@@ -69,15 +82,14 @@ const ClaimTicketList: React.FC = () => {
     new Set(),
   );
 
-  // Visible tickets for VP (filter out internal TMS statuses)
-  const visibleTickets = useMemo(
-    () =>
-      CLAIM_TICKETS.map((t) => ({
-        ...t,
-        status: displayStatus(t.status),
-      })).filter((t) => VP_STATUSES.includes(t.status)),
-    [],
-  );
+  // Visible tickets for VP — apply persisted overrides from localStorage
+  const visibleTickets = useMemo(() => {
+    const overrides = loadClaimOverrides();
+    return CLAIM_TICKETS.map((t) => ({
+      ...t,
+      status: displayStatus((overrides[t.ticketNo]?.status ?? t.status) as ClaimStatus),
+    })).filter((t) => VP_STATUSES.includes(t.status));
+  }, []);
 
   const counts = useMemo(
     () => ({
@@ -244,27 +256,54 @@ const ClaimTicketList: React.FC = () => {
     },
   ];
 
+  const isSingleFilter = (s: ClaimStatus) =>
+    statusFilter.size === 1 && statusFilter.has(s);
+
+  const handleCardClick = (s: ClaimStatus | null) => {
+    if (s === null) {
+      setStatusFilter(new Set());
+    } else {
+      setStatusFilter(isSingleFilter(s) ? new Set() : new Set([s]));
+    }
+  };
+
   return (
     <div className={styles.claimTicketsPage}>
       {/* KPI Summary Cards */}
       <div className={styles.kpiRow}>
-        <Card className={styles.kpiCard} size="small">
+        <Card
+          className={`${styles.kpiCard} ${statusFilter.size === 0 ? styles.kpiCardActive : ''}`}
+          size="small"
+          onClick={() => handleCardClick(null)}
+        >
           <div className={styles.kpiLabel}>Total Claim Tickets</div>
           <div className={styles.kpiValue}>{counts.total}</div>
         </Card>
-        <Card className={styles.kpiCard} size="small">
+        <Card
+          className={`${styles.kpiCard} ${isSingleFilter('Pending Confirm') ? styles.kpiCardActive : ''}`}
+          size="small"
+          onClick={() => handleCardClick('Pending Confirm')}
+        >
           <div className={styles.kpiLabel}>Pending Confirm</div>
           <div className={`${styles.kpiValue} ${styles.orange}`}>
             {counts.pending}
           </div>
         </Card>
-        <Card className={styles.kpiCard} size="small">
+        <Card
+          className={`${styles.kpiCard} ${isSingleFilter('Disputed') ? styles.kpiCardActive : ''}`}
+          size="small"
+          onClick={() => handleCardClick('Disputed')}
+        >
           <div className={styles.kpiLabel}>Disputed</div>
           <div className={`${styles.kpiValue} ${styles.red}`}>
             {counts.disputed}
           </div>
         </Card>
-        <Card className={styles.kpiCard} size="small">
+        <Card
+          className={`${styles.kpiCard} ${isSingleFilter('For Deduction') ? styles.kpiCardActive : ''}`}
+          size="small"
+          onClick={() => handleCardClick('For Deduction')}
+        >
           <div className={styles.kpiLabel}>For Deduction</div>
           <div className={`${styles.kpiValue} ${styles.blue}`}>
             {counts.forDeduction}

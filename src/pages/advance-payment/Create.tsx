@@ -1,5 +1,6 @@
 import BreadcrumbCase from '@/components/CustomBreadcrumb';
 import { PATHS } from '@/constants';
+import { PaperClipOutlined } from '@ant-design/icons';
 import {
   type OperationLogEntry,
   type SyncedApplication,
@@ -25,7 +26,7 @@ import {
   Table,
   Typography,
 } from 'antd';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { ensureSeedData } from './mock/applicationData';
 import { CANDIDATE_WAYBILLS, type CandidateWaybill } from './mock/waybills';
 import styles from './index.less';
@@ -40,6 +41,14 @@ interface BankInfoEntry {
   accountName: string;
   accountNumber: string;
   proof: string;
+}
+
+interface InvoiceEntry {
+  id: string;
+  invoiceNo: string;
+  invoiceDate: string;
+  amount: number;
+  fileName: string;
 }
 
 const DEFAULT_BANK_INFOS: BankInfoEntry[] = [
@@ -96,6 +105,9 @@ const AdvancePaymentCreate: React.FC = () => {
 
   const [app, setApp] = useState<SyncedApplication>(() => defaultEmptyApp());
   const [appLoaded, setAppLoaded] = useState(false);
+
+  // Invoice state
+  const [invoices, setInvoices] = useState<InvoiceEntry[]>([]);
 
   // Bank state
   const [bankInfos, setBankInfos] = useState<BankInfoEntry[]>(DEFAULT_BANK_INFOS);
@@ -500,6 +512,114 @@ const AdvancePaymentCreate: React.FC = () => {
             {totalAmountPayable.toLocaleString('en-US', { minimumFractionDigits: 2 })}
           </span>
         </div>
+      </Card>
+
+      {/* Invoice */}
+      <Card
+        title={`Invoice (${invoices.length})`}
+        bordered
+        size="small"
+        style={{ marginBottom: 16 }}
+        extra={
+          isEditable && (
+            <Button
+              size="small"
+              onClick={() => {
+                const newInvoice: InvoiceEntry = {
+                  id: `inv-${Date.now()}`,
+                  invoiceNo: `INV-2026-${String(invoices.length + 1).padStart(3, '0')}`,
+                  invoiceDate: new Date().toISOString().slice(0, 10),
+                  amount: 0,
+                  fileName: `invoice_${invoices.length + 1}.pdf`,
+                };
+                setInvoices((prev) => [...prev, newInvoice]);
+                message.success('Invoice added.');
+              }}
+            >
+              + Add Invoice
+            </Button>
+          )
+        }
+      >
+        {invoices.length === 0 ? (
+          <div style={{ textAlign: 'center', color: '#bbb', padding: 24, fontSize: 13, border: '1px dashed #e8e8e8', borderRadius: 4 }}>
+            No invoices added yet. Click &quot;+ Add Invoice&quot; to attach an invoice.
+          </div>
+        ) : (
+          <Table
+            dataSource={invoices}
+            rowKey="id"
+            pagination={false}
+            size="small"
+            columns={[
+              {
+                title: 'Invoice No.',
+                dataIndex: 'invoiceNo',
+                render: (v: string) => <Text strong>{v}</Text>,
+              },
+              {
+                title: 'Invoice Date',
+                dataIndex: 'invoiceDate',
+              },
+              {
+                title: 'Amount',
+                dataIndex: 'amount',
+                align: 'right' as const,
+                render: (v: number, record: InvoiceEntry) =>
+                  isEditable ? (
+                    <InputNumber
+                      size="small"
+                      style={{ width: 120, textAlign: 'right' }}
+                      min={0}
+                      precision={2}
+                      value={v || undefined}
+                      placeholder="0.00"
+                      onChange={(val) =>
+                        setInvoices((prev) =>
+                          prev.map((i) =>
+                            i.id === record.id ? { ...i, amount: val ?? 0 } : i,
+                          ),
+                        )
+                      }
+                    />
+                  ) : (
+                    v.toLocaleString('en-US', { minimumFractionDigits: 2 })
+                  ),
+              },
+              {
+                title: 'Attachment',
+                dataIndex: 'fileName',
+                render: (v: string) => (
+                  <Link style={{ fontSize: 12 }}>
+                    <PaperClipOutlined /> {v}
+                  </Link>
+                ),
+              },
+              ...(isEditable
+                ? [
+                    {
+                      title: '',
+                      key: 'actions',
+                      width: 80,
+                      render: (_: unknown, record: InvoiceEntry) => (
+                        <Button
+                          type="link"
+                          danger
+                          size="small"
+                          onClick={() => {
+                            setInvoices((prev) => prev.filter((i) => i.id !== record.id));
+                            message.success('Invoice removed.');
+                          }}
+                        >
+                          Remove
+                        </Button>
+                      ),
+                    },
+                  ]
+                : []),
+            ]}
+          />
+        )}
       </Card>
 
       {/* Receiving Account */}

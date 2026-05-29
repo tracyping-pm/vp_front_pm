@@ -17,7 +17,7 @@ export function buildSeedApplications(): SyncedApplication[] {
       vendorName: 'Coca-Cola Bottlers PH Inc.',
       source: 'Vendor Portal',
       appType: 'Advance Payment Request',
-      status: 'Awaiting Inteluck Confirmation',
+      status: 'Pending Payment',
       taxMark: 'VAT-ex',
       currency: 'PHP',
       waybills: [
@@ -52,7 +52,7 @@ export function buildSeedApplications(): SyncedApplication[] {
       vendorName: 'Coca-Cola Bottlers PH Inc.',
       source: 'Vendor Portal',
       appType: 'Advance Payment Request',
-      status: 'Collected',
+      status: 'Paid',
       taxMark: 'VAT-ex',
       currency: 'PHP',
       waybills: [
@@ -263,30 +263,20 @@ export function buildSeedApplications(): SyncedApplication[] {
   ];
 }
 
+const SEED_VERSION = 'v2';
+const SEED_VERSION_KEY = 'prepaid-applications-seed-version';
+
 /**
- * Initialize localStorage with seed data if empty.
- * Backfills operationLogs for legacy records that don't have them.
+ * Initialize localStorage with seed data.
+ * Uses a version key so that after pulling new code the seed data is
+ * automatically refreshed — no need to manually clear localStorage.
  */
 export function ensureSeedData(): void {
-  let current = getAllApplications();
-  if (current.length === 0) {
-    buildSeedApplications().forEach(upsertApplication);
-    return;
-  }
+  const storedVersion = localStorage.getItem(SEED_VERSION_KEY);
+  if (storedVersion === SEED_VERSION) return;
 
-  // Backfill operationLogs for legacy records
-  const seedByNo = new Map(buildSeedApplications().map((s) => [s.applicationNo, s]));
-  let migrated = false;
-  current.forEach((a) => {
-    if (!a.operationLogs || a.operationLogs.length === 0) {
-      const seedLogs = seedByNo.get(a.applicationNo)?.operationLogs;
-      if (seedLogs && seedLogs.length > 0) {
-        upsertApplication({ ...a, operationLogs: seedLogs });
-        migrated = true;
-      }
-    }
-  });
-  if (migrated) {
-    // re-read is handled by caller
-  }
+  // Version mismatch or first run — reset seed data
+  localStorage.removeItem('prepaid-applications-sync');
+  buildSeedApplications().forEach(upsertApplication);
+  localStorage.setItem(SEED_VERSION_KEY, SEED_VERSION);
 }

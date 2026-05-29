@@ -51,20 +51,51 @@ const STATUS_HELP_TEXT: Partial<Record<ClaimStatus, string>> = {
   Completed: 'Claim ticket has been completed.',
 };
 
+// ── Claim ticket override persistence ─────────────────────────────────────────
+
+const CLAIM_OVERRIDE_KEY = 'vp-claim-ticket-overrides';
+
+interface ClaimOverride {
+  status: ClaimStatus;
+  disputeNote?: { reason: string; files: string[] };
+}
+
+function loadClaimOverrides(): Record<string, ClaimOverride> {
+  try {
+    const raw = localStorage.getItem(CLAIM_OVERRIDE_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch {
+    return {};
+  }
+}
+
+function saveClaimOverride(ticketNo: string, override: ClaimOverride) {
+  try {
+    const all = loadClaimOverrides();
+    all[ticketNo] = override;
+    localStorage.setItem(CLAIM_OVERRIDE_KEY, JSON.stringify(all));
+  } catch {
+    /* ignore */
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+
 const ClaimTicketDetail: React.FC = () => {
   const [searchParams] = useSearchParams();
   const ticketNo = searchParams.get('ticketNo') || '';
 
   const ticket = CLAIM_TICKETS.find((t) => t.ticketNo === ticketNo);
 
-  // Local state for status transitions (mock)
+  // Local state for status transitions — initialised from localStorage
+  const savedOverride = ticketNo ? loadClaimOverrides()[ticketNo] : undefined;
   const [statusOverride, setStatusOverride] = useState<ClaimStatus | null>(
-    null,
+    savedOverride?.status ?? null,
   );
   const [disputeNote, setDisputeNote] = useState<{
     reason: string;
     files: string[];
-  } | null>(null);
+  } | null>(savedOverride?.disputeNote ?? null);
   const [disputeModalOpen, setDisputeModalOpen] = useState(false);
 
   if (!ticket) {
@@ -96,6 +127,7 @@ const ClaimTicketDetail: React.FC = () => {
       cancelText: 'Cancel',
       onOk: () => {
         setStatusOverride('For Deduction');
+        saveClaimOverride(ticketNo, { status: 'For Deduction' });
       },
     });
   };
@@ -107,6 +139,7 @@ const ClaimTicketDetail: React.FC = () => {
     setStatusOverride('Disputed');
     setDisputeNote(data);
     setDisputeModalOpen(false);
+    saveClaimOverride(ticketNo, { status: 'Disputed', disputeNote: data });
   };
 
   return (

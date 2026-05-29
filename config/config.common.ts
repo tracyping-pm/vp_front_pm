@@ -6,9 +6,16 @@ import routes from './routes';
 const { UMI_ENV = 'dev' } = process.env;
 const tagVerison = process.env.TAG_VERSION || '0.0.0';
 
+// When running behind TMS dev-server proxy (pnpm start:tms-proxy),
+// VP must serve all routes under /vp/ so both apps share the same origin
+// (localhost:8000) and can exchange data via localStorage.
+const VP_PROXY_MODE = process.env.VP_PROXY_MODE === 'true';
+const base = VP_PROXY_MODE ? '/vp/' : '/';
+
 export default {
   esbuildMinifyIIFE: true,
-  publicPath: '/',
+  base,
+  publicPath: base,
   alias: {
     '@': resolve(__dirname, '../src'),
   },

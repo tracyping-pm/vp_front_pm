@@ -29,6 +29,7 @@
     "start:prod": "cross-env PORT=7000 REACT_APP_ENV=prod MOCK=dev UMI_ENV=dev max dev",
     "start:test": "cross-env PORT=7000 REACT_APP_ENV=test MOCK=dev UMI_ENV=dev max dev",
     "start:uat": "cross-env PORT=7000 REACT_APP_ENV=uat MOCK=dev UMI_ENV=dev max dev",
+    "start:tms-proxy": "cross-env PORT=8001 VP_PROXY_MODE=true UMI_ENV=dev max dev",
     "tsc": "tsc --noEmit"
   },
   "lint-staged": {

@@ -85,66 +85,63 @@ export default [
     hideInMenu: true,
   },
   {
-    path: '/claim-tickets',
-    name: 'Claim Tickets',
-    component: './claim-tickets/List',
+    path: '/finance',
+    name: 'Finance',
     meta: {
-      icon: 'claim',
+      icon: 'finance',
     },
-  },
-  {
-    path: '/claim-tickets/detail/:id',
-    name: 'Claim Ticket Detail',
-    component: './claim-tickets/Detail',
-    hideInMenu: true,
-  },
-  {
-    path: '/billing-waybills',
-    name: 'Billing Waybills',
-    component: './billing-waybills/List',
-    meta: {
-      icon: 'waybills',
-    },
-  },
-  {
-    path: '/advance-payment',
-    name: 'Advance Payment',
-    component: './advance-payment/List',
-    meta: {
-      icon: 'payment',
-    },
-  },
-  {
-    path: '/advance-payment/create',
-    name: 'Create Advance Payment',
-    component: './advance-payment/Create',
-    hideInMenu: true,
-  },
-  {
-    path: '/advance-payment/detail/:id',
-    name: 'Advance Payment Detail',
-    component: './advance-payment/Detail',
-    hideInMenu: true,
-  },
-  {
-    path: '/statements',
-    name: 'My Statements',
-    component: './statements/List',
-    meta: {
-      icon: 'billing',
-    },
-  },
-  {
-    path: '/statements/create',
-    name: 'Create Statement',
-    component: './statements/Create',
-    hideInMenu: true,
-  },
-  {
-    path: '/statements/detail/:id',
-    name: 'Statement Detail',
-    component: './statements/Detail',
-    hideInMenu: true,
+    routes: [
+      {
+        path: '/finance/claim-tickets',
+        name: 'Claim Tickets',
+        component: './claim-tickets/List',
+      },
+      {
+        path: '/finance/claim-tickets/detail',
+        name: 'Claim Ticket Detail',
+        component: './claim-tickets/Detail',
+        hideInMenu: true,
+      },
+      {
+        path: '/finance/billing-waybills',
+        name: 'Billing Waybills',
+        component: './billing-waybills/List',
+      },
+      {
+        path: '/finance/advance-payment',
+        name: 'Advance Payment',
+        component: './advance-payment/List',
+      },
+      {
+        path: '/finance/advance-payment/create',
+        name: 'Create Advance Payment',
+        component: './advance-payment/Create',
+        hideInMenu: true,
+      },
+      {
+        path: '/finance/advance-payment/detail',
+        name: 'Advance Payment Detail',
+        component: './advance-payment/Detail',
+        hideInMenu: true,
+      },
+      {
+        path: '/finance/statements',
+        name: 'My Statements',
+        component: './statements/List',
+      },
+      {
+        path: '/finance/statements/create',
+        name: 'Create Statement',
+        component: './statements/Create',
+        hideInMenu: true,
+      },
+      {
+        path: '/finance/statements/detail',
+        name: 'Statement Detail',
+        component: './statements/Detail',
+        hideInMenu: true,
+      },
+    ],
   },
   {
     path: '/403',

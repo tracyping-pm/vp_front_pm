@@ -1,6 +1,7 @@
 // 运行时配置
 
 import {
+  AccountBookOutlined,
   ExclamationCircleFilled,
   FileTextOutlined,
   HomeOutlined,
@@ -88,6 +89,10 @@ const menuIconList = [
   {
     icon: <FileTextOutlined style={{ fontSize: 16, padding: '2px' }} />,
     key: 'billing',
+  },
+  {
+    icon: <AccountBookOutlined style={{ fontSize: 16, padding: '2px' }} />,
+    key: 'finance',
   },
 ];
 
